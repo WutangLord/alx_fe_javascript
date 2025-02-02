@@ -1,37 +1,61 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const quotes = [
-        { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
-        { text: "In the middle of every difficulty lies opportunity.", category: "Inspiration" },
-        { text: "Do what you can, with what you have, where you are.", category: "Wisdom" }
-    ];
+// Initialize an array of quote objects
+let quotes = [
+    { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
+    { text: "Do what you can, with what you have, where you are.", category: "Motivation" },
+    { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Life" }
+];
 
-    const quoteDisplay = document.getElementById("quoteDisplay");
-    const newQuoteBtn = document.getElementById("newQuote");
+// Select DOM elements
+const quoteDisplay = document.getElementById('quoteDisplay');
+const newQuoteButton = document.getElementById('newQuote');
 
-    function showRandomQuote() {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        const quote = quotes[randomIndex];
-        
-        // Using innerHTML to ensure correct rendering
-        quoteDisplay.innerHTML = `<p>"${quote.text}"</p><strong>- ${quote.category}</strong>`;
+// Function to display a random quote
+function showRandomQuote() {
+    if (quotes.length === 0) {
+        quoteDisplay.innerHTML = "No quotes available. Add a new quote!";
+        return;
     }
 
-    function addQuote() {
-        const newQuoteText = document.getElementById("newQuoteText").value.trim();
-        const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
+    // Get a random quote from the array
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomQuote = quotes[randomIndex];
 
-        if (newQuoteText && newQuoteCategory) {
-            quotes.push({ text: newQuoteText, category: newQuoteCategory });
-            document.getElementById("newQuoteText").value = "";
-            document.getElementById("newQuoteCategory").value = "";
-            alert("Quote added successfully!");
-        } else {
-            alert("Please enter both a quote and a category.");
-        }
+    // Display the quote and its category
+    quoteDisplay.innerHTML = `
+        <p>"${randomQuote.text}"</p>
+        <em>— ${randomQuote.category}</em>
+    `;
+}
+
+// Function to add a new quote
+function addQuote() {
+    const newQuoteText = document.getElementById('newQuoteText').value.trim();
+    const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
+
+    if (newQuoteText === '' || newQuoteCategory === '') {
+        alert('Please enter both a quote and a category!');
+        return;
     }
 
-    newQuoteBtn.addEventListener("click", showRandomQuote);
+    // Create a new quote object
+    const newQuote = {
+        text: newQuoteText,
+        category: newQuoteCategory
+    };
 
-    // Initial quote display
-    showRandomQuote();
-});
+    // Add the new quote to the array
+    quotes.push(newQuote);
+
+    // Clear the input fields
+    document.getElementById('newQuoteText').value = '';
+    document.getElementById('newQuoteCategory').value = '';
+
+    // Notify the user
+    alert('Quote added successfully!');
+}
+
+// Event listener for the "Show New Quote" button
+newQuoteButton.addEventListener('click', showRandomQuote);
+
+// Display a random quote when the page loads
+document.addEventListener('DOMContentLoaded', showRandomQuote);
