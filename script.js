@@ -59,3 +59,44 @@ newQuoteButton.addEventListener('click', showRandomQuote);
 
 // Display a random quote when the page loads
 document.addEventListener('DOMContentLoaded', showRandomQuote);
+// Save quotes to local storage
+function saveQuotes() {
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+}
+
+// Load quotes from local storage
+function loadQuotes() {
+    const storedQuotes = localStorage.getItem('quotes');
+    if (storedQuotes) {
+        quotes = JSON.parse(storedQuotes);
+    }
+}
+
+// Update the addQuote function to save quotes to local storage
+function addQuote() {
+    const newQuoteText = document.getElementById('newQuoteText').value.trim();
+    const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
+
+    if (newQuoteText === '' || newQuoteCategory === '') {
+        alert('Please enter both a quote and a category!');
+        return;
+    }
+
+    const newQuote = {
+        text: newQuoteText,
+        category: newQuoteCategory
+    };
+
+    quotes.push(newQuote);
+    saveQuotes(); // Save quotes to local storage
+
+    document.getElementById('newQuoteText').value = '';
+    document.getElementById('newQuoteCategory').value = '';
+    alert('Quote added successfully!');
+}
+
+// Load quotes when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadQuotes();
+    showRandomQuote();
+});
