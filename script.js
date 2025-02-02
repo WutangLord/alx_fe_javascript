@@ -100,3 +100,37 @@ document.addEventListener('DOMContentLoaded', () => {
     loadQuotes();
     showRandomQuote();
 });
+
+// Export quotes to a JSON file
+function exportQuotes() {
+    const data = JSON.stringify(quotes);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'quotes.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Import quotes from a JSON file
+function importQuotes(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const importedQuotes = JSON.parse(e.target.result);
+        quotes = importedQuotes;
+        saveQuotes();
+        alert('Quotes imported successfully!');
+        showRandomQuote();
+    };
+    reader.readAsText(file);
+}
+
+// Add export and import buttons to the HTML
+document.body.innerHTML += `
+    <div>
+        <button onclick="exportQuotes()">Export Quotes</button>
+        <input type="file" id="importFile" accept=".json" onchange="importQuotes(event)" />
+    </div>
+`;
