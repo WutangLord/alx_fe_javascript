@@ -12,7 +12,7 @@ const newQuoteButton = document.getElementById('newQuote');
 // Step 3: Function to display a random quote
 function showRandomQuote() {
     if (quotes.length === 0) {
-        quoteDisplay.textContent = "No quotes available. Add a new quote!";
+        quoteDisplay.innerHTML = "No quotes available. Add a new quote!";
         return;
     }
 
@@ -20,7 +20,7 @@ function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
 
-    // Display the quote and its category
+    // Display the quote and its category using innerHTML
     quoteDisplay.innerHTML = `
         <p>"${randomQuote.text}"</p>
         <em>— ${randomQuote.category}</em>
